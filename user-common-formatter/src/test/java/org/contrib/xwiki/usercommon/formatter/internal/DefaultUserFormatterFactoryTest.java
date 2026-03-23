@@ -58,11 +58,11 @@ class DefaultUserFormatterFactoryTest
     @Test
     void testClean()
     {
-        UserFormatter bareFormatter = userFormatterFactory.create();
-        UserFormatter dashFormatter = bareFormatter.cleanReplacement("-");
-        assertEquals("firstname-lastname", dashFormatter.clean("firstname.lastname"));
-        assertEquals("firstname--lastname", dashFormatter.clean("firstname. lastname"));
-        assertEquals("firstnamelastname", bareFormatter.clean("firstname.@/,:^\t\n\rlastname"));
+        UserFormatter f = userFormatterFactory.create();
+        assertEquals("firstnamelastname", f.clean("firstname.@/,:^\t\n\rlastname"));
+        f.setForbiddenReplacement("-");
+        assertEquals("firstname-lastname", f.clean("firstname.lastname"));
+        assertEquals("firstname--lastname", f.clean("firstname. lastname"));
     }
 
     @Test
@@ -78,48 +78,49 @@ class DefaultUserFormatterFactoryTest
     }
 
     @Test
-    void testFormatCleanReplacementIsNotCleaned()
+    void testFormatForbiddenReplacementIsNotCleaned()
     {
-        assertEquals("C^milleDup^nt",
-            userFormatterFactory.create(dirtyValues).cleanReplacement("^").format("${first.clean}${last.clean}"));
+        UserFormatter f = userFormatterFactory.create(dirtyValues);
+        f.setForbiddenReplacement("^");
+        assertEquals("C^milleDup^nt", f.format("${first.clean}${last.clean}"));
     }
 
     @Test
     void testCleanFormat()
     {
-        UserFormatter cdFormatter = userFormatterFactory.create(dirtyValues);
-        UserFormatter fancyDashFormatter = cdFormatter.cleanReplacement("-dash-");
-        assertEquals("Cmille-Dupnt", cdFormatter.format("${first.clean}-${last._clean}"));
-        assertEquals("C-dash-mille-Dup-dash-nt", fancyDashFormatter.format("${first.clean}-${last._clean}"));
+        UserFormatter f = userFormatterFactory.create(dirtyValues);
+        assertEquals("Cmille-Dupnt", f.format("${first.clean}-${last._clean}"));
+        f.setForbiddenReplacement("-dash-");
+        assertEquals("C-dash-mille-Dup-dash-nt", f.format("${first.clean}-${last._clean}"));
     }
 
     @Test
     void testFormats()
     {
-        UserFormatter dvFormatter = userFormatterFactory.create(dirtyValues);
-        assertEquals("c@mille-dup.nt", dvFormatter.format("${first.lowerCase}-${last._lowerCase}"));
-        assertEquals("C@MILLE-DUP.NT", dvFormatter.format("${first.upperCase}-${last._upperCase}"));
-        assertEquals("cmille-dupnt", dvFormatter.format("${first.clean.lowerCase}-${last.clean.lowerCase}"));
-        assertEquals("CMILLE-DUPNT", dvFormatter.format("${first.clean.upperCase}-${last._clean._upperCase}"));
+        UserFormatter f = userFormatterFactory.create(dirtyValues);
+        assertEquals("c@mille-dup.nt", f.format("${first.lowerCase}-${last._lowerCase}"));
+        assertEquals("C@MILLE-DUP.NT", f.format("${first.upperCase}-${last._upperCase}"));
+        assertEquals("cmille-dupnt", f.format("${first.clean.lowerCase}-${last.clean.lowerCase}"));
+        assertEquals("CMILLE-DUPNT", f.format("${first.clean.upperCase}-${last._clean._upperCase}"));
     }
 
     @Test
     void testFormatMissingKeysAreReplaced()
     {
-        UserFormatter userFormatter = userFormatterFactory.create(cd);
-        assertEquals("Camille---Dupont", userFormatter.format("${first}-${middle}-${nullkey}-${last}"));
-        assertEquals("Camille--Dupont", userFormatter.format("${first}-${middle.clean}-${last}"));
+        UserFormatter f = userFormatterFactory.create(cd);
+        assertEquals("Camille---Dupont", f.format("${first}-${middle}-${nullkey}-${last}"));
+        assertEquals("Camille--Dupont", f.format("${first}-${middle.clean}-${last}"));
     }
 
     @Test
-    void testCharactersToClean()
+    void testForbiddenPattern()
     {
         UserFormatter f = userFormatterFactory.create(Pattern.compile("y"));
         assertEquals("Camille.Dupont", f.clean("Camyille.Dupont"));
     }
 
     @Test
-    void testCharactersToCleanAndFormat()
+    void testForbiddenPatternAndFormat()
     {
         UserFormatter f = userFormatterFactory.create(cd, Pattern.compile("[u.]"));
         assertEquals("CamilleDpont", f.format("${first.clean}${last.clean}"));
@@ -128,13 +129,11 @@ class DefaultUserFormatterFactoryTest
     @Test
     void testKeyWithDot()
     {
-        UserFormatter bareFormatter = userFormatterFactory.create();
-        assertEquals(
-            "hello",
-            bareFormatter.variables(Collections.singletonMap("dotted.key", "hello")).format("${dotted.key}"));
-        assertEquals(
-            "",
-            bareFormatter.variables(Collections.singletonMap("dotted", "hello")).format("${dotted.key}"));
+        UserFormatter f = userFormatterFactory.create();
+        f.setVariables(Collections.singletonMap("dotted.key", "hello"));
+        assertEquals("hello", f.format("${dotted.key}"));
+        f.setVariables(Collections.singletonMap("dotted", "hello"));
+        assertEquals("", f.format("${dotted.key}"));
     }
 
     @Test
@@ -149,20 +148,17 @@ class DefaultUserFormatterFactoryTest
     @Test
     void testSetGet()
     {
-        UserFormatter bareFormatter = userFormatterFactory.create();
+        UserFormatter f = userFormatterFactory.create();
         Map<String, String> m = Collections.singletonMap("a", "b");
-        UserFormatter f1 = bareFormatter.variables(m);
-        assertNotEquals(bareFormatter, f1);
-        assertEquals(m, f1.variables());
+        f.setVariables(m);
+        assertEquals(m, f.getVariables());
 
         Pattern p = Pattern.compile("a");
-        UserFormatter f2 = bareFormatter.charactersToClean(p);
-        assertNotEquals(bareFormatter, f2);
-        assertEquals(p, f2.charactersToClean());
+        f.setForbiddenPattern(p);
+        assertEquals(p, f.getForbiddenPattern());
 
         String c = "^@^";
-        UserFormatter f3 = bareFormatter.cleanReplacement(c);
-        assertNotEquals(bareFormatter, f3);
-        assertEquals(c, f3.cleanReplacement());
+        f.setForbiddenReplacement(c);
+        assertEquals(c, f.getForbiddenReplacement());
     }
 }

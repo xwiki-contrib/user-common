@@ -55,36 +55,32 @@ public interface UserFormatter
     String format(String template);
 
     /**
-     * @return the pattern to match characters to replace
+     * @param variables the available values with which to replace the placeholders
      */
-    Pattern charactersToClean();
-
-    /**
-     * @param charactersToClean the pattern to match characters to replace
-     * @return a copy of this, with the given charactersToClean
-     */
-    UserFormatter charactersToClean(Pattern charactersToClean);
+    void setVariables(Map<String, String> variables);
 
     /**
      * @return the available values with which to replace the placeholders
      */
-    Map<String, String> variables();
+    Map<String, String> getVariables();
 
     /**
-     * @param variables the available values with which to replace the placeholders
-     * @return a copy of this, with the given variables
+     * @param forbiddenPattern the pattern to match characters to replace
      */
-    UserFormatter variables(Map<String, String> variables);
+    void setForbiddenPattern(Pattern forbiddenPattern);
+
+    /**
+     * @return the pattern to match characters to replace
+     */
+    Pattern getForbiddenPattern();
+
+    /**
+     * @param cleanReplacement what forbidden characters are replaced with
+     */
+    void setForbiddenReplacement(String cleanReplacement);
 
     /**
      * @return what forbidden characters are replaced with
      */
-    String cleanReplacement();
-
-    /**
-     * @param cleanReplacement what forbidden characters are replaced with
-     * @return a copy of this, with the given cleanReplacement
-     */
-    UserFormatter cleanReplacement(String cleanReplacement);
-
+    String getForbiddenReplacement();
 }

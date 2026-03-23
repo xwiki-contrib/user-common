@@ -32,58 +32,67 @@ import org.contrib.xwiki.usercommon.formatter.UserFormatter;
  */
 public class DefaultUserFormatter implements UserFormatter
 {
-    private final Map<String, String> variables;
-    private final String cleanReplacement;
-    private final Pattern charactersToClean;
+    private Map<String, String> variables;
+    private String forbiddenReplacement;
+    private Pattern forbiddenPattern;
 
     private StringSubstitutor stringSubstitutor;
 
     /**
      * @param variables the variables to use
-     * @param charactersToClean the characters to clean
-     * @param cleanReplacement the replacement for the characters to clean
+     * @param forbiddenPattern the characters to clean
+     * @param forbiddenReplacement the replacement for the characters to clean
      */
-    public DefaultUserFormatter(Map<String, String> variables, Pattern charactersToClean, String cleanReplacement)
+    public DefaultUserFormatter(Map<String, String> variables, Pattern forbiddenPattern, String forbiddenReplacement)
     {
         this.variables = variables;
-        this.charactersToClean = charactersToClean;
-        this.cleanReplacement = cleanReplacement;
+        this.forbiddenPattern = forbiddenPattern;
+        this.forbiddenReplacement = forbiddenReplacement;
     }
 
     @Override
-    public UserFormatter variables(Map<String, String> variables)
+    public void setVariables(Map<String, String> variables)
     {
-        return new DefaultUserFormatter(variables, charactersToClean, cleanReplacement);
+        this.stringSubstitutor = null;
+        this.variables = variables;
     }
 
     @Override
-    public String cleanReplacement()
-    {
-        return cleanReplacement;
-    }
-
-    @Override
-    public UserFormatter cleanReplacement(String cleanReplacement)
-    {
-        return new DefaultUserFormatter(variables, charactersToClean, cleanReplacement);
-    }
-
-    @Override
-    public UserFormatter charactersToClean(Pattern charactersToClean)
-    {
-        return new DefaultUserFormatter(variables, charactersToClean, cleanReplacement);
-    }
-
-    @Override
-    public Map<String, String> variables()
+    public Map<String, String> getVariables()
     {
         return variables;
     }
 
     @Override
+    public void setForbiddenReplacement(String forbiddenReplacement)
+    {
+        this.stringSubstitutor = null;
+        this.forbiddenReplacement = forbiddenReplacement;
+    }
+
+    @Override
+    public String getForbiddenReplacement()
+    {
+        return forbiddenReplacement;
+    }
+
+    @Override
+    public void setForbiddenPattern(Pattern forbiddenPattern)
+    {
+        this.stringSubstitutor = null;
+        this.forbiddenPattern = forbiddenPattern;
+    }
+
+    @Override
+    public Pattern getForbiddenPattern()
+    {
+        return forbiddenPattern;
+    }
+
+    @Override
     public String clean(String name)
     {
-        return charactersToClean.matcher(name).replaceAll(cleanReplacement);
+        return forbiddenPattern.matcher(name).replaceAll(forbiddenReplacement);
     }
 
     @Override
@@ -93,12 +102,6 @@ public class DefaultUserFormatter implements UserFormatter
             stringSubstitutor = new StringSubstitutor(s -> getValue(variables, s));
         }
         return stringSubstitutor.replace(template);
-    }
-
-    @Override
-    public Pattern charactersToClean()
-    {
-        return charactersToClean;
     }
 
     private String getValue(Map<String, String> variables, String key)
