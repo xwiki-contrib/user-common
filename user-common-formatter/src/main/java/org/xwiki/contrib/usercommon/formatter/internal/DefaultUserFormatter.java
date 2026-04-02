@@ -17,13 +17,13 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.contrib.xwiki.usercommon.formatter.internal;
+package org.xwiki.contrib.usercommon.formatter.internal;
 
 import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.apache.commons.text.StringSubstitutor;
-import org.contrib.xwiki.usercommon.formatter.UserFormatter;
+import org.xwiki.contrib.usercommon.formatter.UserFormatter;
 
 /**
  * User formatter.

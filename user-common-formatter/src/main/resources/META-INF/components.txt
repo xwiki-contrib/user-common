@@ -1,1 +1,1 @@
-org.contrib.xwiki.usercommon.formatter.internal.DefaultUserFormatterFactory
+org.xwiki.contrib.usercommon.formatter.internal.DefaultUserFormatterFactory

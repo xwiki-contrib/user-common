@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.contrib.xwiki.usercommon.formatter.internal;
+package org.xwiki.contrib.usercommon.formatter.internal;
 
 import java.util.Collections;
 import java.util.Map;
@@ -25,8 +25,8 @@ import java.util.regex.Pattern;
 
 import javax.inject.Singleton;
 
-import org.contrib.xwiki.usercommon.formatter.UserFormatter;
-import org.contrib.xwiki.usercommon.formatter.UserFormatterFactory;
+import org.xwiki.contrib.usercommon.formatter.UserFormatter;
+import org.xwiki.contrib.usercommon.formatter.UserFormatterFactory;
 import org.xwiki.component.annotation.Component;
 
 /**
