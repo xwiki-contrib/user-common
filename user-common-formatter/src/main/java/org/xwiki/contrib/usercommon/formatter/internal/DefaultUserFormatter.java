@@ -92,7 +92,7 @@ public class DefaultUserFormatter implements UserFormatter
     @Override
     public String clean(String name)
     {
-        return forbiddenPattern.matcher(name).replaceAll(forbiddenReplacement);
+        return forbiddenPattern == null ? name : forbiddenPattern.matcher(name).replaceAll(forbiddenReplacement);
     }
 
     @Override

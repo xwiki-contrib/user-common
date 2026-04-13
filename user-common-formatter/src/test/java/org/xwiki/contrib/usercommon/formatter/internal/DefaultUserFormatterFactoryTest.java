@@ -161,4 +161,11 @@ class DefaultUserFormatterFactoryTest
         f.setForbiddenReplacement(c);
         assertEquals(c, f.getForbiddenReplacement());
     }
+
+    @Test
+    void testNullPattern()
+    {
+        UserFormatter f = userFormatterFactory.create(null, "");
+        assertEquals("user^.@name", f.clean("user^.@name"));
+    }
 }
