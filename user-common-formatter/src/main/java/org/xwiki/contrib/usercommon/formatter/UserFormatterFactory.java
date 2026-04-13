@@ -32,6 +32,16 @@ import org.xwiki.component.annotation.Role;
 public interface UserFormatterFactory
 {
     /**
+     * The default forbidden pattern.
+     */
+    Pattern DEFAULT_FORBIDDEN_PATTERN = Pattern.compile("[.:\\s,@^/]");
+
+    /**
+     * The default forbidden replacement.
+     */
+    String DEFAULT_FORBIDDEN_REPLACEMENT = "";
+
+    /**
      * @return an empty user formatter purely aimed at cleaning, with the default characters to clean.
      */
     UserFormatter create();
@@ -44,14 +54,16 @@ public interface UserFormatterFactory
 
     /**
      * @return an empty user formatter purely aimed at cleaning, with the given characters to clean.
-     * @param charactersToClean the pattern to use to determine characters to clean
+     * @param forbiddenPattern the pattern to use to determine characters to clean
+     * @param forbiddenReplacement the replacement for the characters to clean
      */
-    UserFormatter create(Pattern charactersToClean);
+    UserFormatter create(Pattern forbiddenPattern, String forbiddenReplacement);
 
     /**
      * @return a user formatter with the given variables and the given characters to clean.
      * @param variables the variables to use
-     * @param charactersToClean the pattern to use to determine characters to clean
+     * @param forbiddenPattern the pattern to use to determine characters to clean
+     * @param forbiddenReplacement the replacement for the characters to clean
      */
-    UserFormatter create(Map<String, String> variables, Pattern charactersToClean);
+    UserFormatter create(Map<String, String> variables, Pattern forbiddenPattern, String forbiddenReplacement);
 }

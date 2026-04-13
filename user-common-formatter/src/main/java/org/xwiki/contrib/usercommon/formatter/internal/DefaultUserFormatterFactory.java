@@ -37,8 +37,6 @@ import org.xwiki.component.annotation.Component;
 @Singleton
 public class DefaultUserFormatterFactory implements UserFormatterFactory
 {
-    private static final Pattern DEFAULT_CHARACTERS_TO_CLEAN = Pattern.compile("[.:\\s,@^/]");
-
     @Override
     public UserFormatter create()
     {
@@ -48,18 +46,18 @@ public class DefaultUserFormatterFactory implements UserFormatterFactory
     @Override
     public UserFormatter create(Map<String, String> variables)
     {
-        return new DefaultUserFormatter(variables, DEFAULT_CHARACTERS_TO_CLEAN, "");
+        return new DefaultUserFormatter(variables, DEFAULT_FORBIDDEN_PATTERN, DEFAULT_FORBIDDEN_REPLACEMENT);
     }
 
     @Override
-    public UserFormatter create(Pattern charactersToClean)
+    public UserFormatter create(Pattern forbiddenPattern, String forbiddenReplacement)
     {
-        return new DefaultUserFormatter(Collections.emptyMap(), charactersToClean, "");
+        return new DefaultUserFormatter(Collections.emptyMap(), forbiddenPattern, forbiddenReplacement);
     }
 
     @Override
-    public UserFormatter create(Map<String, String> variables, Pattern charactersToClean)
+    public UserFormatter create(Map<String, String> variables, Pattern forbiddenPattern, String forbiddenReplacement)
     {
-        return new DefaultUserFormatter(variables, charactersToClean, "");
+        return new DefaultUserFormatter(variables, forbiddenPattern, forbiddenReplacement);
     }
 }

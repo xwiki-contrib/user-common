@@ -115,14 +115,14 @@ class DefaultUserFormatterFactoryTest
     @Test
     void testForbiddenPattern()
     {
-        UserFormatter f = userFormatterFactory.create(Pattern.compile("y"));
+        UserFormatter f = userFormatterFactory.create(Pattern.compile("y"), "");
         assertEquals("Camille.Dupont", f.clean("Camyille.Dupont"));
     }
 
     @Test
     void testForbiddenPatternAndFormat()
     {
-        UserFormatter f = userFormatterFactory.create(cd, Pattern.compile("[u.]"));
+        UserFormatter f = userFormatterFactory.create(cd, Pattern.compile("[u.]"), "");
         assertEquals("CamilleDpont", f.format("${first.clean}${last.clean}"));
     }
 
