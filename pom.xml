@@ -29,7 +29,7 @@
   </parent>
   <groupId>org.xwiki.contrib.user-common</groupId>
   <artifactId>user-common</artifactId>
-  <version>1.0.0-rc-1</version>
+  <version>1.0.0-rc-2-SNAPSHOT</version>
   <name>User Common - Parent POM</name>
   <description>Parent POM for User Common modules</description>
   <packaging>pom</packaging>
@@ -41,7 +41,7 @@
     <connection>scm:git:git://github.com/xwiki-contrib/user-common.git</connection>
     <developerConnection>scm:git:git@github.com:xwiki-contrib/user-common.git</developerConnection>
     <url>https://github.com/xwiki-contrib/user-common/tree/master</url>
-    <tag>user-common-1.0.0-rc-1</tag>
+    <tag>HEAD</tag>
   </scm>
   <developers>
     <developer>
