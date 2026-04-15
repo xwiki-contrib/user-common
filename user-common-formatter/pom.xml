@@ -23,39 +23,30 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.xwiki.contrib</groupId>
-    <artifactId>parent-platform</artifactId>
-    <version>10.11-2</version>
+    <groupId>org.xwiki.contrib.user-common</groupId>
+    <artifactId>user-common</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
   </parent>
-  <groupId>org.xwiki.contrib.user-common</groupId>
-  <artifactId>user-common</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
-  <name>User Common - Parent POM</name>
-  <description>Parent POM for User Common modules</description>
-  <packaging>pom</packaging>
   <properties>
-    <xwiki.release.jira.skip>false</xwiki.release.jira.skip>
-    <xwiki.issueManagement.jira.id>USERCOMMON</xwiki.issueManagement.jira.id>
+    <xwiki.jacoco.instructionRatio>0.98</xwiki.jacoco.instructionRatio>
   </properties>
-  <scm>
-    <connection>scm:git:git://github.com/xwiki-contrib/user-common.git</connection>
-    <developerConnection>scm:git:git@github.com:xwiki-contrib/user-common.git</developerConnection>
-    <url>https://github.com/xwiki-contrib/user-common/tree/master</url>
-    <tag>HEAD</tag>
-  </scm>
-  <developers>
-    <developer>
-      <id>rjakse</id>
-      <name>Raphaël Jakse</name>
-      <email>raphael.jakse at xwiki.com</email>
-      <timezone>+1</timezone>
-    </developer>
-    <developer>
-      <id>xwikidev</id>
-      <name>XWiki Development Team</name>
-    </developer>
-  </developers>
-  <modules>
-    <module>user-common-formatter</module>
-  </modules>
+  <artifactId>user-common-formatter</artifactId>
+  <name>User Common - Formatter</name>
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-text</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.commons</groupId>
+      <artifactId>xwiki-commons-component-api</artifactId>
+      <version>${commons.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.commons</groupId>
+      <artifactId>xwiki-commons-tool-test-component</artifactId>
+      <version>${commons.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 </project>
